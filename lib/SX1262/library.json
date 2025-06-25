@@ -1,0 +1,18 @@
+{
+  "name": "SX1262",
+  "version": "1.0.0",
+  "description": "Library for NiceRF SX1262 LoRa module",
+  "keywords": "lora, sx1262, nicerf, radio",
+  "authors": [
+    {
+      "name": "NiceRF",
+      "email": "support@nicerf.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "frameworks": "arduino",
+  "platforms": "*"
+}
