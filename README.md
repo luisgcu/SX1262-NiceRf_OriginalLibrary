@@ -269,6 +269,29 @@ Use the lookup tables provided to change communication parameters:
 
 This project uses the NiceRF SX1262 library. Please refer to the original library documentation for licensing information.
 
+## Upcoming Project with NiceRF SX1262
+
+### LoRa Dual Motion Sensor
+
+We're developing an advanced LoRa-based dual motion sensor system using the NiceRF SX1262 module with ESP32-C3. This project will feature:
+
+- **Dual Motion Detection**: Multiple motion sensors for enhanced coverage
+- **Low Power Design**: Optimized for battery operation
+- **Compact Form Factor**: Custom PCB design for minimal footprint
+- **ESP32-C3 Integration**: Latest ESP32 variant with built-in RISC-V processor
+
+#### 3D PCB Preview
+
+**Front View:**
+![LoRa Dual Motion Sensor - Front](img/LoRaDualMotionSensorNiceRf%20ESP32C3.jpg)
+
+**Back View:**
+![LoRa Dual Motion Sensor - Back](img/LoRaDualMotionSensorNiceRf%20ESP32C3Back.jpg)
+
+*3D render of the upcoming LoRa Dual Motion Sensor PCB featuring NiceRF SX1262 and ESP32-C3*
+
+This upcoming project will demonstrate advanced applications of the SX1262 module in IoT sensing applications with long-range wireless communication capabilities.
+
 ## References
 
 - [SX1262 Datasheet](https://www.semtech.com/products/wireless-rf/lora-transceivers/sx1262)
