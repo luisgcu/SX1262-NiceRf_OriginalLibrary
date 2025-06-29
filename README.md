@@ -26,6 +26,13 @@ The SX1262 is a long-range, low-power transceiver based on Semtech's LoRa modula
 - Jumper wires
 - Breadboard (optional)
 
+### Custom PCB Shield
+For ESP32-WROOM users, a custom shield PCB is available that simplifies connections:
+
+![ESP32-WROOM SX1262 Custom Shield](img/NiceRF_SX1262_ESP32WROOM.jpg)
+
+*Custom PCB shield designed for ESP32-WROOM with integrated SX1262 module connections*
+
 ### Pin Connections
 
 The project supports two ESP32 board configurations with different pin mappings:
@@ -163,6 +170,13 @@ lora_para.code_rate  = LORA_CR_4_5;    // Coding Rate: 4/5
 3. **Observe communication**
    - Master transmits "www.nicerf.com" every 10 seconds
    - Slave receives and displays the data with a receive counter
+
+### SDR Verification
+You can verify the LoRa transmission using an SDR (Software Defined Radio). Below is an example capture showing the LoRa signal:
+
+![SDR Capture of LoRa Transmission](img/NiceRF_Sx1262_160mw.jpg)
+
+*SDR capture showing LoRa signal transmission at the configured frequency*
 
 **Expected Master Output:**
 ```
