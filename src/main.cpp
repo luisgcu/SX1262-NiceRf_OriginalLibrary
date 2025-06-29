@@ -26,7 +26,7 @@ ESP32 Dev Board Pin Configuration (ESP32DEV_BOARD):
 		   3V3   	          <------->    VCC
 		   GND   	          <------->    GND
 
-ESP32-WROOM Dev Board Pin Configuration (ESP32WROOM_DEV_BOARD):
+ESP32-WROVER-B Dev Board Pin Configuration (ESP32WROOM_DEV_BOARD):
 		  ESP32		                    LoRa1262
 		   GPIO5(SS)	      <------->    NSS
 		   GPIO18(SCK)        <------->    SCK
@@ -54,7 +54,7 @@ ESP32-WROOM Dev Board Pin Configuration (ESP32WROOM_DEV_BOARD):
 // BOARD CONFIGURATION - Choose one ESP32 board type
 // ============================================================================
 //#define ESP32DEV_BOARD      // ESP32 Dev Board (GPIO16, GPIO21, GPIO17)
-#define ESP32WROOM_DEV_BOARD  // ESP32-WROOM Dev Board (GPIO4, GPIO12, GPIO14)
+#define ESP32WROOM_DEV_BOARD  // ESP32-WROVER-B Dev Board (GPIO4, GPIO12, GPIO14)
 
 #ifdef ESP32DEV_BOARD
 // ============================================================================
@@ -67,7 +67,7 @@ ESP32-WROOM Dev Board Pin Configuration (ESP32WROOM_DEV_BOARD):
 
 #else
 // ============================================================================
-// ESP32-WROOM Dev Board Pin Configuration (Default)
+// ESP32-WROVER-B Dev Board Pin Configuration (Default)
 // ============================================================================
 #define NSS_PIN 5      // Chip Select (CS/SS)
 #define NRESET_PIN 4   // Reset pin

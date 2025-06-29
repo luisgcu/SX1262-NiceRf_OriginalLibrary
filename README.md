@@ -11,7 +11,7 @@ The SX1262 is a long-range, low-power transceiver based on Semtech's LoRa modula
 ### Features
 
 - LoRa communication at 434.5 MHz or 915 MHz (configurable)
-- Support for multiple ESP32 board types (ESP32 Dev Board and ESP32-WROOM)
+- Support for multiple ESP32 board types (ESP32 Dev Board and ESP32-WROVER-B)
 - Configurable transmission power (-9 to +22 dBm)
 - Multiple spreading factors (SF5 to SF12)
 - Various bandwidth options (7.8 kHz to 500 kHz)
@@ -26,12 +26,19 @@ The SX1262 is a long-range, low-power transceiver based on Semtech's LoRa modula
 - Jumper wires
 - Breadboard (optional)
 
+### ESP32-WROVER-B Development Kit
+This project is optimized for the ESP32-WROVER-B development kit:
+
+![ESP32-WROVER Development Kit](img/ESP32wroverkit.jpg)
+
+*ESP32-WROVER-B development kit used in this project*
+
 ### Custom PCB Shield
-For ESP32-WROOM users, a custom shield PCB is available that simplifies connections:
+For ESP32-WROVER-B users, a custom shield PCB is available that simplifies connections:
 
-![ESP32-WROOM SX1262 Custom Shield](img/NiceRF_SX1262_ESP32WROOM.jpg)
+![ESP32-WROVER-B SX1262 Custom Shield](img/NiceRF_SX1262_ESP32WROOM.jpg)
 
-*Custom PCB shield designed for ESP32-WROOM with integrated SX1262 module connections*
+*Custom PCB shield designed for ESP32-WROVER-B with integrated SX1262 module connections*
 
 ### Pin Connections
 
@@ -52,7 +59,7 @@ To use this configuration, uncomment `#define ESP32DEV_BOARD` in main.cpp
 | 3.3V      | VCC        | Power Supply |
 | GND       | GND        | Ground |
 
-#### Configuration 2: ESP32-WROOM Dev Board (Current Default)
+#### Configuration 2: ESP32-WROVER-B Dev Board (Current Default)
 To use this configuration, uncomment `#define ESP32WROOM_DEV_BOARD` in main.cpp
 
 | ESP32 Pin | SX1262 Pin | Function |
@@ -99,7 +106,7 @@ Choose your ESP32 board type by uncommenting the appropriate define in `main.cpp
 // Option 1: ESP32 Dev Board (uses GPIO16, GPIO21, GPIO17)
 #define ESP32DEV_BOARD
 
-// Option 2: ESP32-WROOM Dev Board (uses GPIO4, GPIO12, GPIO14) - Default
+// Option 2: ESP32-WROVER-B Dev Board (uses GPIO4, GPIO12, GPIO14) - Default
 //#define ESP32WROOM_DEV_BOARD
 ```
 
