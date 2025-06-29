@@ -1,6 +1,8 @@
 # SX1262 LoRa Module Demo for ESP32
 
-This project demonstrates how to use the NiceRF SX1262 LoRa module with an ESP32 development board using PlatformIO. The project includes both master (transmitter) and slave (receiver) functionality.
+This project demonstrates how to use the NiceRF SX1262 LoRa module with ESP32 development boards using PlatformIO. The project includes both master (transmitter) and slave (receiver) functionality and supports multiple ESP32 board configurations.
+
+**Official Product Page:** https://www.nicerf.com/lora-module/915mhz-lora-module-lora1262.html
 
 ## Overview
 
@@ -8,7 +10,8 @@ The SX1262 is a long-range, low-power transceiver based on Semtech's LoRa modula
 
 ### Features
 
-- LoRa communication at 434.5 MHz
+- LoRa communication at 434.5 MHz or 915 MHz (configurable)
+- Support for multiple ESP32 board types (ESP32 Dev Board and ESP32-WROOM)
 - Configurable transmission power (-9 to +22 dBm)
 - Multiple spreading factors (SF5 to SF12)
 - Various bandwidth options (7.8 kHz to 500 kHz)
@@ -25,7 +28,10 @@ The SX1262 is a long-range, low-power transceiver based on Semtech's LoRa modula
 
 ### Pin Connections
 
-Connect the SX1262 module to ESP32 as follows:
+The project supports two ESP32 board configurations with different pin mappings:
+
+#### Configuration 1: ESP32 Dev Board (Default)
+To use this configuration, uncomment `#define ESP32DEV_BOARD` in main.cpp
 
 | ESP32 Pin | SX1262 Pin | Function |
 |-----------|------------|----------|
@@ -36,6 +42,21 @@ Connect the SX1262 module to ESP32 as follows:
 | GPIO16    | NRESET     | Reset Pin |
 | GPIO21    | BUSY       | Busy Status |
 | GPIO17    | DIO1       | Digital I/O 1 |
+| 3.3V      | VCC        | Power Supply |
+| GND       | GND        | Ground |
+
+#### Configuration 2: ESP32-WROOM Dev Board (Current Default)
+To use this configuration, uncomment `#define ESP32WROOM_DEV_BOARD` in main.cpp
+
+| ESP32 Pin | SX1262 Pin | Function |
+|-----------|------------|----------|
+| GPIO5     | NSS        | SPI Chip Select |
+| GPIO18    | SCK        | SPI Clock |
+| GPIO23    | MOSI       | SPI Master Out |
+| GPIO19    | MISO       | SPI Master In |
+| GPIO4     | NRESET     | Reset Pin |
+| GPIO12    | BUSY       | Busy Status |
+| GPIO14    | DIO1       | Digital I/O 1 |
 | 3.3V      | VCC        | Power Supply |
 | GND       | GND        | Ground |
 
@@ -63,14 +84,40 @@ SX1262-NiceRf_OriginalLibrary/
 
 ## Configuration
 
-The LoRa parameters are configured in the `setup()` function:
+### Board Selection
+
+Choose your ESP32 board type by uncommenting the appropriate define in `main.cpp`:
 
 ```cpp
-lora_para.rf_freq    = 434500000;  // Frequency: 434.5 MHz
-lora_para.tx_power   = 10;         // TX Power: 10 dBm
-lora_para.lora_sf    = LORA_SF10;  // Spreading Factor: 10
-lora_para.band_width = LORA_BW_125; // Bandwidth: 125 kHz
-lora_para.code_rate  = LORA_CR_4_5; // Coding Rate: 4/5
+// Option 1: ESP32 Dev Board (uses GPIO16, GPIO21, GPIO17)
+#define ESP32DEV_BOARD
+
+// Option 2: ESP32-WROOM Dev Board (uses GPIO4, GPIO12, GPIO14) - Default
+//#define ESP32WROOM_DEV_BOARD
+```
+
+### Frequency Selection
+
+Choose your operating frequency by uncommenting the appropriate define in `main.cpp`:
+
+```cpp
+// Option 1: 434.5 MHz (ISM band for Europe/Asia)
+//#define FREQUENCY 434500000
+
+// Option 2: 915 MHz (ISM band for Americas) - Default
+#define FREQUENCY 915000000
+```
+
+### LoRa Parameters
+
+The LoRa communication parameters are configured in the `setup()` function:
+
+```cpp
+lora_para.rf_freq    = FREQUENCY;      // 434.5 MHz or 915 MHz
+lora_para.tx_power   = 10;             // TX Power: 10 dBm
+lora_para.lora_sf    = LORA_SF8;       // Spreading Factor: 8
+lora_para.band_width = LORA_BW_125;    // Bandwidth: 125 kHz
+lora_para.code_rate  = LORA_CR_4_5;    // Coding Rate: 4/5
 ```
 
 ### Available Options
@@ -119,11 +166,11 @@ lora_para.code_rate  = LORA_CR_4_5; // Coding Rate: 4/5
 
 **Expected Master Output:**
 ```
-Starting SX1262 initialization...
+Starting  NiceRF SX1262  initialization with NiceRf Sample library...
 Calling LoRa1262.Init()...
 Init success!
 SX1262 demo master!
-Frequency: 434500000 Hz
+Frequency: 915000000 Hz
 TX Power: 10 dBm
 tx_cnt = 1
 tx_cnt = 2
@@ -133,7 +180,7 @@ tx_cnt = 3
 
 **Expected Slave Output:**
 ```
-Starting SX1262 initialization...
+Starting  NiceRF SX1262  initialization with NiceRf Sample library...
 Calling LoRa1262.Init()...
 Init success!
 SX1262 demo slave!
@@ -148,18 +195,22 @@ rx_cnt = 3 data:www.nicerf.com
 ### Common Issues
 
 1. **"Init fail!" message**
-   - Check wiring connections
+   - Check wiring connections (verify you're using the correct pin configuration for your board)
    - Verify power supply is 3.3V
    - Ensure SX1262 module is properly seated
+   - Check that the correct board configuration is selected in code
 
 2. **No communication between devices**
-   - Verify both devices use the same LoRa parameters
+   - Verify both devices use the same LoRa parameters (frequency, SF, BW, CR)
+   - Ensure both devices use the same frequency (434.5 MHz or 915 MHz)
    - Check antenna connections
    - Ensure adequate distance (but not too far for initial testing)
+   - Verify both devices are using compatible pin configurations
 
 3. **Compilation errors**
    - Verify PlatformIO ESP32 platform is installed
    - Check that all library files are present
+   - Ensure only one board configuration is uncommented
 
 ### Debug Tips
 
@@ -167,6 +218,17 @@ rx_cnt = 3 data:www.nicerf.com
 - Use an oscilloscope to verify SPI communication
 - Test with devices close together initially
 - Monitor serial output on both devices simultaneously
+- Verify the correct board configuration is selected before testing
+- Ensure both devices use the same frequency setting
+
+## Frequency Band Selection
+
+This project supports two common LoRa frequency bands:
+
+- **434.5 MHz**: ISM band commonly used in Europe and Asia
+- **915 MHz**: ISM band commonly used in Americas
+
+⚠️ **Important**: Ensure you're using the appropriate frequency for your region and comply with local regulations.
 
 ## Customization
 

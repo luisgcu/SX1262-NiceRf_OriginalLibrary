@@ -9,8 +9,12 @@ Caution:
 	Make sure the power supply is UNDER 3.3V. Or the module will be destory!!
 	
 Usage:
-	1. connect the LoRa1262 module and ESP32 as below
-	
+	1. Select your ESP32 board configuration below (ESP32DEV_BOARD or ESP32WROOM_DEV_BOARD)
+	2. Select your frequency (434.5 MHz or 915 MHz) based on your region
+	3. Connect the LoRa1262 module and ESP32 Dev module as per pin configuration below
+	4. Compile the code for master and slave respectively (uncomment #define SLAVE for slave)
+
+ESP32 Dev Board Pin Configuration (ESP32DEV_BOARD):
 		  ESP32		                    LoRa1262
 		   GPIO5(SS)	      <------->    NSS
 		   GPIO18(SCK)        <------->    SCK
@@ -21,20 +25,56 @@ Usage:
 		   GPIO17   	      <------->    DIO1
 		   3V3   	          <------->    VCC
 		   GND   	          <------->    GND
+
+ESP32-WROOM Dev Board Pin Configuration (ESP32WROOM_DEV_BOARD):
+		  ESP32		                    LoRa1262
+		   GPIO5(SS)	      <------->    NSS
+		   GPIO18(SCK)        <------->    SCK
+		   GPIO23(MOSI)       <------->    MOSI
+		   GPIO19(MISO)       <------->    MISO
+		   GPIO4   	          <------->    NRESET
+		   GPIO12   	      <------->    BUSY
+		   GPIO14   	      <------->    DIO1
+		   3V3   	          <------->    VCC
+		   GND   	          <------->    GND
 	   
-	2. compile the code for master and slave respectively.
-	
 *********************************************************************************************/
 
 #include <SX1262.h>
 #include <SPI.h>
 
-// NiceRF SX1262 pinout for ESP32 Dev Board
+// ============================================================================
+// FREQUENCY SELECTION - Choose one based on your region
+// ============================================================================
+//#define FREQUENCY 434500000 // 434.5MHz - Europe/Asia ISM band
+#define FREQUENCY 915000000   // 915MHz - Americas ISM band
+#define POWER 10 // -9~22 dBm
+
+// ============================================================================
+// BOARD CONFIGURATION - Choose one ESP32 board type
+// ============================================================================
+//#define ESP32DEV_BOARD      // ESP32 Dev Board (GPIO16, GPIO21, GPIO17)
+#define ESP32WROOM_DEV_BOARD  // ESP32-WROOM Dev Board (GPIO4, GPIO12, GPIO14)
+
+#ifdef ESP32DEV_BOARD
+// ============================================================================
+// ESP32 Dev Board Pin Configuration
+// ============================================================================
 #define NSS_PIN 5      // Chip Select (CS/SS)
 #define NRESET_PIN 16  // Reset pin
 #define RFBUSY_PIN 21  // Busy pin
 #define DIO1_PIN 17    // DIO1 interrupt pin
 
+#else
+// ============================================================================
+// ESP32-WROOM Dev Board Pin Configuration (Default)
+// ============================================================================
+#define NSS_PIN 5      // Chip Select (CS/SS)
+#define NRESET_PIN 4   // Reset pin
+#define RFBUSY_PIN 12  // Busy pin
+#define DIO1_PIN 14    // DIO1 interrupt pin
+
+#endif
 // Note: ESP32 hardware SPI pins are used automatically:
 // SCK = 18, MISO = 19, MOSI = 23
 
@@ -70,11 +110,11 @@ void setup(void)
 	Serial.begin(115200);	//UART Init
 	delay(1000); // Give time for serial to initialize
 	
-	Serial.println("Starting SX1262 initialization...");
-	
-	lora_para.rf_freq    = 434500000;
-	lora_para.tx_power   = 10;	//-9~22
-	lora_para.lora_sf    = LORA_SF10;
+	Serial.println("Starting  NiceRF SX1262  initialization with NiceRf Sample library...");
+
+	lora_para.rf_freq    = FREQUENCY;
+	lora_para.tx_power   = POWER;	//-9~22
+	lora_para.lora_sf    = LORA_SF8;
 	lora_para.band_width = LORA_BW_125;
 	lora_para.code_rate  = LORA_CR_4_5;
 	lora_para.payload_size = sizeof(tx_buf);
